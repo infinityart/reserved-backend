@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TreatmentCollection;
 use App\Http\Resources\TreatmentResource;
 use App\Treatment;
-use Illuminate\Support\Facades\App;
 
 class TreatmentController extends Controller
 {
@@ -19,7 +19,7 @@ class TreatmentController extends Controller
     }
 
     /**
-     * Returns a list of treatments.
+     * Returns a JSON collection of treatments.
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */

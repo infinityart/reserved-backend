@@ -18,6 +18,7 @@ class TreatmentResource extends JsonResource
         return [
             'id' => $this->ID,
             'name' => $this->Name,
+            'duration' => $this->Duration
         ];
     }
 }
