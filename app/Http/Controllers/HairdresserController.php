@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\TreatmentResource;
-use App\Treatment;
+use App\Hairdresser;
+use App\Http\Resources\HairdresserResource;
 
-class TreatmentController extends Controller
+class HairdresserController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -24,6 +24,6 @@ class TreatmentController extends Controller
      */
     public function index()
     {
-        return TreatmentResource::collection(Treatment::all());
+        return HairdresserResource::collection(Hairdresser::all());
     }
 }
