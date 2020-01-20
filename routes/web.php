@@ -13,6 +13,4 @@ use Illuminate\Support\Str;
 |
 */
 
-$router->get('/', function () use ($router) {
-    echo Str::random(32);
-});
+$router->get('/treatments', ['uses' => 'treatmentController@index']);
