@@ -13,4 +13,6 @@ use Illuminate\Support\Str;
 |
 */
 
-$router->get('/treatments', ['uses' => 'treatmentController@index']);
+$router->get('/treatments', ['uses' => 'TreatmentController@index']);
+
+$router->get('/hairdressers', ['uses' => 'HairdresserController@index']);

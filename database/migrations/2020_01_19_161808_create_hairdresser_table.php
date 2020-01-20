@@ -16,7 +16,7 @@ class CreateHairdresserTable extends Migration
         Schema::create('Hairdresser', function (Blueprint $table) {
             $table->increments('ID');
             $table->string('Name');
-            $table->string('AvatarUrl');
+            $table->string('AvatarURL');
         });
     }
 
