@@ -2,6 +2,7 @@
 
 
 use Illuminate\Support\Str;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -16,3 +17,5 @@ use Illuminate\Support\Str;
 $router->get('/treatments', ['uses' => 'TreatmentController@index']);
 
 $router->get('/hairdressers', ['uses' => 'HairdresserController@index']);
+
+$router->post('/appointment', ['uses' => 'AppointmentController@store']);
