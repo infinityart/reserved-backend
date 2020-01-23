@@ -16,5 +16,6 @@ use Illuminate\Support\Str;
 $router->get('/treatments', ['uses' => 'TreatmentController@index']);
 
 $router->get('/hairdressers', ['uses' => 'HairdresserController@index']);
+$router->get('/hairdressers/appointments', ['uses' => 'HairdresserController@appointments']);
 
 $router->post('/appointment', ['uses' => 'AppointmentController@store']);

@@ -14,9 +14,26 @@ class Hairdresser extends Model
     protected $table = 'Hairdresser';
 
     /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'ID';
+
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Get the appointments of the hairdresser.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function appointments()
+    {
+        return $this->hasMany('App\Appointment', 'HairdresserID');
+    }
 }
