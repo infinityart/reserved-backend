@@ -21,6 +21,13 @@ class Appointment extends Model
     public $timestamps = false;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['HairdresserID', 'ClientID', 'ScheduledAt'];
+
+    /**
      * Get the client that has the appointment.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -28,5 +35,16 @@ class Appointment extends Model
     public function client()
     {
         return $this->belongsTo('App\Client', 'ClientID');
+    }
+
+    /**
+     * Get the treatments that belongs to the appointment.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function treatments()
+    {
+        return $this->belongsToMany('App\Treatment', 'ChosenTreatment', 'AppointmentID', 'TreatmentID')
+            ->as('chosenTreatment');
     }
 }

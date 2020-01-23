@@ -13,7 +13,6 @@ use Illuminate\Support\Str;
 | and give it the Closure to call when that URI is requested.
 |
 */
-
 $router->get('/treatments', ['uses' => 'TreatmentController@index']);
 
 $router->get('/hairdressers', ['uses' => 'HairdresserController@index']);
