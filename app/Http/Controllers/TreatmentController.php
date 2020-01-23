@@ -8,16 +8,6 @@ use App\Treatment;
 class TreatmentController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Returns a JSON collection of treatments.
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection

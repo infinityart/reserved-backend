@@ -21,6 +21,7 @@ class AppointmentController extends Controller
 
     /**
      * Store a new Appointment.
+     * @todo controlleer of het niet tijdens een andere afpsraak is :)
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Support\MessageBag
@@ -56,12 +57,10 @@ class AppointmentController extends Controller
 
             $clientID = $insertedAppointment->getKey();
 
-            $scheduledAt = Carbon::createFromFormat('d-m-Y H:i', $data['scheduledAt']);
-
             $insertedAppointment = $appointment->create([
                 'HairdresserID' => $data['hairdresserID'],
                 'ClientID' => $clientID,
-                'ScheduledAt' => $scheduledAt->format('Y-m-d H:i')
+                'ScheduledAt' => Carbon::createFromFormat('d-m-Y H:i', $data['scheduledAt'])
             ]);
 
             $insertedAppointment->treatments()->attach($data['treatmentIDs']);
@@ -69,5 +68,4 @@ class AppointmentController extends Controller
 
         return response()->json(['message' => 'Appointment has been stored.']);
     }
-
 }

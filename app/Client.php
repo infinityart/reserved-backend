@@ -14,6 +14,13 @@ class Client extends Model
     protected $table = 'Client';
 
     /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'ID';
+
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
