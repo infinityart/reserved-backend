@@ -34,9 +34,9 @@ class HairdresserController extends Controller
         $date = $validator->validated()['date'];
         $date = Carbon::createFromFormat('d-m-Y', $date);
 
-        $hairdressers = Hairdresser::with(['appointments' => function ($query) use ($date) {
+        $hairdressers = Hairdresser::whereHas('appointments', function ( $query) use ($date) {
             $query->whereDate('ScheduledAt', '=', $date->format('Y-m-d'));
-        }])->get();
+        })->get();
 
         foreach ($hairdressers as $hairdresser) {
             foreach ($hairdresser->appointments as $appointment) {
