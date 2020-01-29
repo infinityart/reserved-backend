@@ -8,6 +8,7 @@ use App\Http\Resources\HairdresserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class HairdresserController extends Controller
 {
@@ -23,18 +24,14 @@ class HairdresserController extends Controller
 
     public function appointments(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'date' => ['required', 'date_format:d-m-Y', 'after_or_equal:today']
+        $validatedData = $this->validate($request, [
+            'date' => ['required', 'date_format:d-m-Y', 'bail', 'after_or_equal:today']
         ]);
 
-        if ($validator->fails()) {
-            return $validator->errors();
-        }
-
-        $date = $validator->validated()['date'];
+        $date = $validatedData['date'];
         $date = Carbon::createFromFormat('d-m-Y', $date);
 
-        $hairdressers = Hairdresser::whereHas('appointments', function ( $query) use ($date) {
+        $hairdressers = Hairdresser::whereHas('appointments', function ($query) use ($date) {
             $query->whereDate('ScheduledAt', '=', $date->format('Y-m-d'));
         })->get();
 
@@ -42,7 +39,7 @@ class HairdresserController extends Controller
             foreach ($hairdresser->appointments as $appointment) {
                 $endTime = $appointment->ScheduledAt;
 
-                foreach ($appointment->treatments as $treatment){
+                foreach ($appointment->treatments as $treatment) {
                     $duration = Carbon::createFromFormat('H:i:s', $treatment->Duration);
 
                     $endTime->addHours($duration->hour);
