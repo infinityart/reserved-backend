@@ -52,6 +52,10 @@ class HairdresserController extends Controller
             }
         }
 
+        $hairdressers = $hairdressers->reject(function ($hairdresser) {
+           return $hairdresser->appointments->count() === 0;
+        });
+
         return HairdresserAppointmentsResource::collection($hairdressers);
     }
 }
