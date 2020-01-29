@@ -16,9 +16,7 @@ class HairdresserAppointmentsResource extends JsonResource
         return [
             'id' => $this->ID,
             'name' => $this->Name,
-            'appointments' => [
-                AppointmentResource::collection($this->appointments)
-            ]
+            'appointments' => AppointmentResource::collection($this->appointments)
         ];
     }
 }

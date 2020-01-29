@@ -15,7 +15,7 @@ class AppointmentResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'startTime' => $this->ScheduledAt->format('d-m-Y H:i'),
+            'startTime' => $this->ScheduledAt->format('Y-m-d H:i'),
             'endTime' => $this->endTime->format('H:i')
         ];
     }
