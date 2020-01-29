@@ -14,6 +14,7 @@ class HairdresserAppointmentsResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->ID,
             'name' => $this->Name,
             'appointments' => [
                 AppointmentResource::collection($this->appointments)
