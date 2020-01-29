@@ -9,26 +9,22 @@ namespace App\Http\Controllers;
 
 use App\Appointment;
 use App\Rules\AppointableTime;
-use App\Rules\TimeIsModuloOfFifteen;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 
 class AppointmentController extends Controller
 {
-
     /**
-     * Store a new Appointment.
      * @todo controlleer of het niet tijdens een andere afpsraak is :)
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Support\MessageBag
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validatedData = $this->validate($request, [
             'hairdresserID' => 'required|numeric|exists:Hairdresser,ID',
             'treatmentIDs' => 'required|array',
             'treatmentIDs.*' => 'numeric|exists:Treatment,ID',
@@ -39,31 +35,25 @@ class AppointmentController extends Controller
             'scheduledAt' => ['required', 'date_format:d-m-Y H:i', 'after_or_equal:now+2hours', new AppointableTime]
         ]);
 
-        if ($validator->fails()) {
-            return $validator->errors();
-        }
-
-        $data = $validator->validated();
-
         $appointment = new Appointment;
 
-        DB::transaction(function () use ($appointment, $data) {
+        DB::transaction(function () use ($appointment, $validatedData) {
             $insertedAppointment = $appointment->client()->create([
-                'FirstName' => $data['firstName'],
-                'LastName' => $data['lastName'],
-                'Email' => $data['email'],
-                'PhoneNumber' => $data['phoneNumber'],
+                'FirstName' => $validatedData['firstName'],
+                'LastName' => $validatedData['lastName'],
+                'Email' => $validatedData['email'],
+                'PhoneNumber' => $validatedData['phoneNumber'],
             ]);
 
             $clientID = $insertedAppointment->getKey();
 
             $insertedAppointment = $appointment->create([
-                'HairdresserID' => $data['hairdresserID'],
+                'HairdresserID' => $validatedData['hairdresserID'],
                 'ClientID' => $clientID,
-                'ScheduledAt' => Carbon::createFromFormat('d-m-Y H:i', $data['scheduledAt'])
+                'ScheduledAt' => Carbon::createFromFormat('d-m-Y H:i', $validatedData['scheduledAt'])
             ]);
 
-            $insertedAppointment->treatments()->attach($data['treatmentIDs']);
+            $insertedAppointment->treatments()->attach($validatedData['treatmentIDs']);
         });
 
         return response()->json(['message' => 'Appointment has been stored.']);
