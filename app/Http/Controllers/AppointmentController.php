@@ -32,7 +32,7 @@ class AppointmentController extends Controller
             'lastName' => 'required|max:255',
             'email' => 'required|email:rfc,dns,filter|max:255',
             'phoneNumber' => 'required',
-            'scheduledAt' => ['required', 'date_format:d-m-Y H:i', 'after_or_equal:now+2hours', new AppointableTime]
+            'scheduledAt' => ['required', 'date_format:d-m-Y H:i', 'after_or_equal:tomorrow', new AppointableTime]
         ]);
 
         $appointment = new Appointment;
